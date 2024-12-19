@@ -1,10 +1,12 @@
 package idus.api.workchronos.domain.workManagment;
 
 import idus.api.workchronos.domain.ValueObject;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Getter
 public class WorkEntries extends ValueObject {
     private final LocalDateTime workStart;
     private final LocalDateTime workEnd;
@@ -16,15 +18,4 @@ public class WorkEntries extends ValueObject {
         this.breaks = breaks;
     }
 
-    public LocalDateTime getWorkStart() {
-        return workStart;
-    }
-
-    public LocalDateTime getWorkEnd() {
-        return workEnd;
-    }
-
-    public List<WorkBreak> getBreaks() {
-        return breaks;
-    }
 }
