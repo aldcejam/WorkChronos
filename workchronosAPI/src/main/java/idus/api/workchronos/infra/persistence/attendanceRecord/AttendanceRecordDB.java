@@ -5,6 +5,7 @@ import idus.api.workchronos.infra.persistence.user.UserDB;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ public class AttendanceRecordDB {
     private UserDB user;
 
     @Column(name = "work_date", nullable = false)
-    private Date workDate;
+    private LocalDate workDate;
 
     @Column(name = "entries", nullable = false)
     private String entries;
