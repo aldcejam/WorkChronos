@@ -4,6 +4,7 @@ import idus.api.workchronos.domain.user.User;
 import idus.api.workchronos.dtos.user.CreateUserInput;
 import idus.api.workchronos.infra.persistence.user.UserDB;
 import idus.api.workchronos.infra.persistence.user.UserRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.UUID;
 
 @Service
+@NoArgsConstructor
 public class UserService {
 
     UserRepository userRepository;

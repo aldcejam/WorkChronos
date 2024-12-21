@@ -5,11 +5,13 @@ import idus.api.workchronos.infra.persistence.attendanceRecord.AttendanceRecordD
 import idus.api.workchronos.infra.persistence.attendanceRecord.AttendanceRecordRepository;
 import idus.api.workchronos.infra.persistence.user.UserDB;
 import idus.api.workchronos.infra.persistence.user.UserRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@NoArgsConstructor
 public class AttendenceRecordService {
 
     AttendanceRecordRepository attendanceRecordRepository;
