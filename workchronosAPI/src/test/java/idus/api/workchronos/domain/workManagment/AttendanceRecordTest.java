@@ -44,6 +44,25 @@ public class AttendanceRecordTest {
     }
 
     @Test
+    public void givenUserWorking_whenFinishDay_thenUpdateWorkEnd() {
+        final var userId = UUID.randomUUID();
+        final var entrie = WorkEntrie.startWork(LocalTime.of(9, 0));
+        final var latestRecord = AttendanceRecord.with(
+                UUID.randomUUID(),
+                userId,
+                LocalDate.now(),
+                entrie,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        final var attendanceRecord = latestRecord.finishDay();
+
+        Assertions.assertNotNull(attendanceRecord.getEntrie().getWorkEnd());
+        Assertions.assertEquals(LocalTime.now().getHour(), attendanceRecord.getEntrie().getWorkEnd().getHour());
+    }
+
+    @Test
     public void givenValidParams_whenCreateWithWorkEntrie_thenInstantiateAttendanceRecord() {
         final var id = UUID.randomUUID();
         final var userId = UUID.randomUUID();
