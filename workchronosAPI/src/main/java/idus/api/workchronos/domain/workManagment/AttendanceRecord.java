@@ -2,6 +2,7 @@ package idus.api.workchronos.domain.workManagment;
 
 import lombok.Getter;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,6 +14,7 @@ public class AttendanceRecord {
     private final UUID userId;
     private final LocalDate workDate;
     private final WorkEntrie entrie;
+    private final Duration workDuration;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
@@ -21,6 +23,7 @@ public class AttendanceRecord {
         this.userId = userId;
         this.workDate = workDate;
         this.entrie = entrie;
+        this.workDuration = this.entrie.getWorkDuration();
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -37,6 +40,18 @@ public class AttendanceRecord {
     public AttendanceRecord finishDay() {
         if (!this.entrie.isWorking()) throw new RuntimeException("User is not working");
         this.entrie.finishWork(LocalTime.now());
+        return this;
+    }
+
+    public AttendanceRecord startBreak() {
+        if (!this.entrie.isWorking()) throw new RuntimeException("User is not working");
+        this.entrie.startBreak(LocalTime.now());
+        return this;
+    }
+
+    public AttendanceRecord finishBreak() {
+        if (!this.entrie.isWorking()) throw new RuntimeException("User is not working");
+        this.entrie.finishBreak(LocalTime.now());
         return this;
     }
 

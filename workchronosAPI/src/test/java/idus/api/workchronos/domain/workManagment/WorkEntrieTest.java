@@ -1,6 +1,5 @@
 package idus.api.workchronos.domain.workManagment;
 
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -87,7 +86,7 @@ public class WorkEntrieTest {
     public void givenNoBreaks_whenEndBreak_thenThrowException() {
         final var workEntrie = new WorkEntrie(LocalTime.of(9, 0), null, new ArrayList<>());
 
-        final var exception = Assertions.assertThrows(IllegalStateException.class, () -> workEntrie.endBreak(LocalTime.of(10, 0)));
+        final var exception = Assertions.assertThrows(IllegalStateException.class, () -> workEntrie.finishBreak(LocalTime.of(10, 0)));
 
         Assertions.assertEquals("Cannot end a break when there are no breaks to end", exception.getMessage());
     }
@@ -100,7 +99,7 @@ public class WorkEntrieTest {
         breaks.add(WorkBreak.create(breakStart, null));
         final var workEntrie = new WorkEntrie(LocalTime.of(9, 0), null, breaks);
 
-        workEntrie.endBreak(breakEnd);
+        workEntrie.finishBreak(breakEnd);
 
         Assertions.assertEquals(breakEnd, workEntrie.getBreaks().get(0).getEnd());
     }
