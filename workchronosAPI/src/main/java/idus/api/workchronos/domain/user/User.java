@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -21,8 +20,8 @@ public class User {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public User(UUID id, String name, String email, String password, UserRole role, String phone, LocalDate birthDate, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id == null ? UUID.randomUUID() : id;
+    private User(UUID id, String name, String email, String password, UserRole role, String phone, LocalDate birthDate, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -35,6 +34,10 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    public static User NewUser(String name, String email, String password, UserRole role, String phone, LocalDate birthDate, LocalDateTime startDate, LocalDateTime endDate) {
+        return new User(null, name, email, password, role, phone, birthDate, startDate, endDate, null, null);
+    }
+
     public static User with(
             final UUID id,
             final String name,
@@ -44,9 +47,7 @@ public class User {
             final String phone,
             final LocalDate birthDate,
             final LocalDateTime startDate,
-            final LocalDateTime endDate,
-            final LocalDateTime createdAt,
-            final LocalDateTime updatedAt
+            final LocalDateTime endDate
     ) {
         return new User(
                 id,
@@ -58,8 +59,8 @@ public class User {
                 birthDate,
                 startDate,
                 endDate,
-                createdAt,
-                updatedAt
+                null,
+                null
         );
     }
 }
