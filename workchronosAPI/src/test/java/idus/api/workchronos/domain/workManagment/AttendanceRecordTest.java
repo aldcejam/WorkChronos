@@ -44,6 +44,91 @@ public class AttendanceRecordTest {
     }
 
     @Test
+    public void givenUserWorking_whenStartBreak_thenUpdateBreakStart() {
+        final var userId = UUID.randomUUID();
+        final var entrie = WorkEntrie.startWork(LocalTime.of(9, 0));
+        final var latestRecord = AttendanceRecord.with(
+                UUID.randomUUID(),
+                userId,
+                LocalDate.now(),
+                entrie,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        final var attendanceRecord = latestRecord.startBreak();
+
+        Assertions.assertNotNull(attendanceRecord.getEntrie().getBreaks());
+        Assertions.assertEquals(1, attendanceRecord.getEntrie().getBreaks().size());
+        Assertions.assertNotNull(attendanceRecord.getEntrie().getBreaks().get(0).getStart());
+        Assertions.assertEquals(LocalTime.now().getHour(), attendanceRecord.getEntrie().getBreaks().get(0).getStart().getHour());
+    }
+
+    @Test
+    public void givenUserNotWorking_whenStartBreak_thenThrowException() {
+        final var userId = UUID.randomUUID();
+        final var entrie = WorkEntrie.startWork(LocalTime.of(9, 0));
+        final var latestRecord = AttendanceRecord.with(
+                UUID.randomUUID(),
+                userId,
+                LocalDate.now(),
+                entrie,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        latestRecord.finishDay();
+
+        final var exception = Assertions.assertThrows(RuntimeException.class, () ->
+                latestRecord.startBreak()
+        );
+
+        Assertions.assertEquals("User is not working", exception.getMessage());
+    }
+
+    @Test
+    public void givenUserWorking_whenFinishBreak_thenUpdateBreakEnd() {
+        final var userId = UUID.randomUUID();
+        final var entrie = WorkEntrie.startWork(LocalTime.of(9, 0));
+        final var latestRecord = AttendanceRecord.with(
+                UUID.randomUUID(),
+                userId,
+                LocalDate.now(),
+                entrie,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        latestRecord.startBreak();
+        final var attendanceRecord = latestRecord.finishBreak();
+
+        Assertions.assertNotNull(attendanceRecord.getEntrie().getBreaks().get(0).getEnd());
+        Assertions.assertEquals(LocalTime.now().getHour(), attendanceRecord.getEntrie().getBreaks().get(0).getEnd().getHour());
+    }
+
+    @Test
+    public void givenUserNotWorking_whenFinishBreak_thenThrowException() {
+        final var userId = UUID.randomUUID();
+        final var entrie = WorkEntrie.startWork(LocalTime.of(9, 0));
+        final var latestRecord = AttendanceRecord.with(
+                UUID.randomUUID(),
+                userId,
+                LocalDate.now(),
+                entrie,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        latestRecord.finishDay();
+
+        final var exception = Assertions.assertThrows(RuntimeException.class, () ->
+                latestRecord.finishBreak()
+        );
+
+        Assertions.assertEquals("User is not working", exception.getMessage());
+    }
+
+    @Test
     public void givenUserWorking_whenFinishDay_thenUpdateWorkEnd() {
         final var userId = UUID.randomUUID();
         final var entrie = WorkEntrie.startWork(LocalTime.of(9, 0));

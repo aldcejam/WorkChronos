@@ -10,6 +10,7 @@ import idus.api.workchronos.domain.ValueObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,14 +64,13 @@ public class WorkEntrie extends ValueObject {
         this.breaks.add(WorkBreak.create(breakStart, null));
     }
 
-    public void endBreak(LocalTime breakEnd) {
+    public void finishBreak(LocalTime breakEnd) {
         if (this.workStart == null) throw new IllegalStateException("Work must be started before adding a break");
         if (this.workEnd != null) throw new IllegalStateException("Work has already ended");
         if (this.breaks.isEmpty()) throw new IllegalStateException("Cannot end a break when there are no breaks to end");
         WorkBreak lastBreak = this.breaks.get(this.breaks.size() - 1);
         lastBreak.finishBreak(breakEnd);
     }
-
 
     public String toString() {
         try {
@@ -92,6 +92,20 @@ public class WorkEntrie extends ValueObject {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @JsonIgnore
+    public Duration getTotalBreakDuration() {
+        return this.breaks.stream()
+                .map(WorkBreak::getDuration)
+                .reduce(Duration.ZERO, Duration::plus);
+    }
+
+    @JsonIgnore
+    public Duration getWorkDuration() {
+        if (this.workStart == null) throw new IllegalStateException("Work must be started before calculating its duration");
+        LocalTime workEnd = this.workEnd != null ? this.workEnd : LocalTime.now();
+        return Duration.between(this.workStart, workEnd).minus(this.getTotalBreakDuration());
     }
 
 }

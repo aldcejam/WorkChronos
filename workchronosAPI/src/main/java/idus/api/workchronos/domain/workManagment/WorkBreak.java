@@ -1,9 +1,11 @@
 package idus.api.workchronos.domain.workManagment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import idus.api.workchronos.domain.ValueObject;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 @Getter
@@ -31,5 +33,12 @@ public class WorkBreak extends ValueObject {
         if (this.start == null) throw new IllegalStateException("Break must be started before finishing it");
         if (this.end != null) throw new IllegalStateException("Break has already ended");
         this.end = end;
+    }
+
+    @JsonIgnore
+    public Duration getDuration() {
+        if (this.start == null) throw new IllegalStateException("Break must be started before calculating its duration");
+        LocalTime end = this.end != null ? this.end : LocalTime.now();
+        return Duration.between(this.start, end);
     }
 }
