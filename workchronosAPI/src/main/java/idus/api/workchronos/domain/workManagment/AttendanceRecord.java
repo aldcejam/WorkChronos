@@ -40,6 +40,18 @@ public class AttendanceRecord {
         return this;
     }
 
+    public AttendanceRecord startBreak() {
+        if (!this.entrie.isWorking()) throw new RuntimeException("User is not working");
+        this.entrie.startBreak(LocalTime.now());
+        return this;
+    }
+
+    public AttendanceRecord finishBreak() {
+        if (!this.entrie.isWorking()) throw new RuntimeException("User is not working");
+        this.entrie.finishBreak(LocalTime.now());
+        return this;
+    }
+
     public static AttendanceRecord with(UUID id, UUID userId, LocalDate workDate, WorkEntrie entrie, LocalDateTime createdAt, LocalDateTime updatedAt) {
         return new AttendanceRecord(id, userId, workDate, entrie, createdAt, updatedAt);
     }
