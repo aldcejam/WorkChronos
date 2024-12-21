@@ -1,6 +1,8 @@
 package idus.api.workchronos.infra.api.controllers;
 
 import idus.api.workchronos.application.AttendenceRecordService;
+import idus.api.workchronos.domain.workManagment.AttendanceRecord;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +21,26 @@ public class AttendenceRecordController {
     }
 
     @PostMapping("/{userId}/start-day")
-    public void startDay(@PathVariable UUID userId) {
-        this.attendenceRecordService.startDay(userId);
+    public ResponseEntity<AttendanceRecord> startDay(@PathVariable UUID userId) {
+        AttendanceRecord record = this.attendenceRecordService.startDay(userId);
+        return ResponseEntity.ok(record);
     }
 
     @PostMapping("/{userId}/finish-day")
-    public void finishDay(@PathVariable UUID userId) {
-        this.attendenceRecordService.finishDay(userId);
+    public ResponseEntity<AttendanceRecord> finishDay(@PathVariable UUID userId) {
+        AttendanceRecord record = this.attendenceRecordService.finishDay(userId);
+        return ResponseEntity.ok(record);
+    }
+
+    @PostMapping("/{userId}/start-break")
+    public ResponseEntity<AttendanceRecord> startBreak(@PathVariable UUID userId) {
+        AttendanceRecord record = this.attendenceRecordService.startBreak(userId);
+        return ResponseEntity.ok(record);
+    }
+
+    @PostMapping("/{userId}/finish-break")
+    public ResponseEntity<AttendanceRecord> finishBreak(@PathVariable UUID userId) {
+        AttendanceRecord record = this.attendenceRecordService.finishBreak(userId);
+        return ResponseEntity.ok(record);
     }
 }
