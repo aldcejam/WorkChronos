@@ -19,7 +19,7 @@ public class AttendanceRecord {
         this.entrie = entrie;
     }
 
-    public static AttendanceRecord create (UUID userId, LocalDate workDate, WorkEntrie entrie) {
+    public static AttendanceRecord startRecord (UUID userId, LocalDate workDate, WorkEntrie entrie) {
         return new AttendanceRecord(null, userId, workDate, entrie);
     }
 
