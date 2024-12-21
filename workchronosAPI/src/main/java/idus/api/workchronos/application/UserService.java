@@ -40,6 +40,6 @@ public class UserService {
     public User getUserById(UUID id) {
         UserDB user = userRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found"));
-        return user.toUser();
+        return user.toDomain();
     }
 }

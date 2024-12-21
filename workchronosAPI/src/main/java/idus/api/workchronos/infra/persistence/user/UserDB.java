@@ -72,7 +72,7 @@ public class UserDB {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public User toUser() {
+    public User toDomain() {
         return User.with(
                 id,
                 name,
