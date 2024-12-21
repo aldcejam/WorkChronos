@@ -34,6 +34,12 @@ public class AttendanceRecord {
         return new AttendanceRecord(null, userId, workDate, workEntries, null, null);
     }
 
+    public AttendanceRecord finishDay() {
+        if (!this.entrie.isWorking()) throw new RuntimeException("User is not working");
+        this.entrie.finishWork(LocalTime.now());
+        return this;
+    }
+
     public static AttendanceRecord with(UUID id, UUID userId, LocalDate workDate, WorkEntrie entrie, LocalDateTime createdAt, LocalDateTime updatedAt) {
         return new AttendanceRecord(id, userId, workDate, entrie, createdAt, updatedAt);
     }
