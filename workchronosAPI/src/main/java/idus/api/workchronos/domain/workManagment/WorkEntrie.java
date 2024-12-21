@@ -32,6 +32,41 @@ public class WorkEntrie extends ValueObject {
         return new WorkEntrie(workStart, workEnd, breaks);
     }
 
+    public static WorkEntrie startWork(LocalTime workStart) {
+        return new WorkEntrie(workStart, null, null);
+    }
+
+    public WorkBreak getCurrentBreak() {
+        if (this.breaks.isEmpty()) return null;
+        if (this.breaks.get(this.breaks.size() - 1).getEnd() != null) return null;
+        return this.breaks.get(this.breaks.size() - 1);
+    }
+
+    public void finishWork(LocalTime workEnd) {
+        if (this.workStart == null) throw new IllegalStateException("Work must be started before ending it");
+        if (this.workEnd != null) throw new IllegalStateException("Work has already ended");
+        this.getCurrentBreak().finishBreak(workEnd);
+        this.workEnd = workEnd;
+    }
+
+    public void startBreak(LocalTime breakStart) {
+        if (this.workStart == null) throw new IllegalStateException("Work must be started before adding a break");
+        if (this.workEnd != null) throw new IllegalStateException("Work has already ended");
+        for (WorkBreak workBreak : this.breaks) {
+            if (workBreak.getEnd() == null) throw new IllegalStateException("Cannot start a new break while there is an unfinished break");
+        }
+        this.breaks.add(WorkBreak.create(breakStart, null));
+    }
+
+    public void endBreak(LocalTime breakEnd) {
+        if (this.workStart == null) throw new IllegalStateException("Work must be started before adding a break");
+        if (this.workEnd != null) throw new IllegalStateException("Work has already ended");
+        if (this.breaks.isEmpty()) throw new IllegalStateException("Cannot end a break when there are no breaks to end");
+        WorkBreak lastBreak = this.breaks.get(this.breaks.size() - 1);
+        lastBreak.finishBreak(breakEnd);
+    }
+
+
     public String toString() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
