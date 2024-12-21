@@ -63,7 +63,7 @@ public class WorkEntrie extends ValueObject {
         this.breaks.add(WorkBreak.create(breakStart, null));
     }
 
-    public void endBreak(LocalTime breakEnd) {
+    public void finishBreak(LocalTime breakEnd) {
         if (this.workStart == null) throw new IllegalStateException("Work must be started before adding a break");
         if (this.workEnd != null) throw new IllegalStateException("Work has already ended");
         if (this.breaks.isEmpty()) throw new IllegalStateException("Cannot end a break when there are no breaks to end");
