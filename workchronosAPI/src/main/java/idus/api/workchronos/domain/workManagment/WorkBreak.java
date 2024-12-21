@@ -26,4 +26,10 @@ public class WorkBreak extends ValueObject {
     public static WorkBreak create(LocalTime start, LocalTime end, String description) {
         return new WorkBreak(start, end, description);
     }
+
+    public void finishBreak(LocalTime end) {
+        if (this.start == null) throw new IllegalStateException("Break must be started before finishing it");
+        if (this.end != null) throw new IllegalStateException("Break has already ended");
+        this.end = end;
+    }
 }
