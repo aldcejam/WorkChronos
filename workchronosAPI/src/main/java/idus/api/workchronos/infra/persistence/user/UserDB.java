@@ -1,6 +1,7 @@
 package idus.api.workchronos.infra.persistence.user;
 
-import idus.api.workchronos.domain.User;
+import idus.api.workchronos.domain.user.User;
+import idus.api.workchronos.domain.user.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -35,34 +38,38 @@ public class UserDB {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
     @Column(name = "phone_number")
     private String phone;
 
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDateTime startDate;
 
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDateTime endDate;
 
     @Column(nullable = false, updatable = false, name = "created_at")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false, name = "updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @PrePersist
     public void prePersist() {
-        Date now = new Date() ;
+        LocalDateTime now = LocalDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
     }
 
     @PreUpdate
     public void preUpdate() {
-        this.updatedAt = new Date();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public User toUser() {
@@ -71,12 +78,27 @@ public class UserDB {
                 name,
                 email,
                 password,
+                role,
                 phone,
                 birthDate,
                 startDate,
-                endDate,
-                createdAt,
-                updatedAt
+                endDate
         );
+    }
+
+    public UserDB fromUser(User user) {
+        return UserDB.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .phone(user.getPhone())
+                .birthDate(user.getBirthDate())
+                .startDate(user.getStartDate())
+                .endDate(user.getEndDate())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
     }
 }
