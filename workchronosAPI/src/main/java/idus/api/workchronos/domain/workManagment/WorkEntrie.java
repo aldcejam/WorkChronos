@@ -1,6 +1,7 @@
 package idus.api.workchronos.domain.workManagment;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -25,21 +27,24 @@ public class WorkEntrie extends ValueObject {
                        @JsonProperty("breaks") List<WorkBreak> breaks) {
         this.workStart = workStart;
         this.workEnd = workEnd;
-        this.breaks = breaks;
-    }
-
-    public static WorkEntrie create(LocalTime workStart, LocalTime workEnd, List<WorkBreak> breaks) {
-        return new WorkEntrie(workStart, workEnd, breaks);
+        this.breaks = breaks != null ? breaks : new ArrayList<>();
     }
 
     public static WorkEntrie startWork(LocalTime workStart) {
-        return new WorkEntrie(workStart, null, null);
+        return new WorkEntrie(workStart, null, new ArrayList<>());
     }
 
+    @JsonIgnore
     public WorkBreak getCurrentBreak() {
         if (this.breaks.isEmpty()) return null;
-        if (this.breaks.get(this.breaks.size() - 1).getEnd() != null) return null;
-        return this.breaks.get(this.breaks.size() - 1);
+        WorkBreak lastBreak = this.breaks.get(this.breaks.size() - 1);
+        if (lastBreak.getEnd() != null) return null;
+        return lastBreak;
+    }
+
+    @JsonIgnore
+    public boolean isWorking() {
+        return this.workStart != null && this.workEnd == null;
     }
 
     public void finishWork(LocalTime workEnd) {
@@ -78,7 +83,7 @@ public class WorkEntrie extends ValueObject {
         }
     }
 
-    public static WorkEntrie fromJson(String json) {
+    public static WorkEntrie fromString(String json) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());
