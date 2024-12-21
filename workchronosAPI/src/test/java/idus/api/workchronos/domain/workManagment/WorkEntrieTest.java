@@ -59,12 +59,17 @@ public class WorkEntrieTest {
     }
 
     @Test
-    public void givenWorkWithoutStart_whenStartBreak_thenThrowException() {
-        final var workEntrie = new WorkEntrie();
+    public void givenWorkWithUnfinishedBreak_whenEndWork_thenFinishBreakAndSetWorkEnd() {
+        final var breakStart = LocalTime.of(10, 0);
+        final var workEnd = LocalTime.of(18, 0);
+        final var breaks = new ArrayList<WorkBreak>();
+        breaks.add(WorkBreak.create(breakStart, null));
+        final var workEntrie = new WorkEntrie(LocalTime.of(9, 0), null, breaks);
 
-        final var exception = Assertions.assertThrows(IllegalStateException.class, () -> workEntrie.startBreak(LocalTime.of(10, 0)));
+        workEntrie.finishWork(workEnd);
 
-        Assertions.assertEquals("Work must be started before adding a break", exception.getMessage());
+        Assertions.assertEquals(workEnd, workEntrie.getWorkEnd());
+        Assertions.assertEquals(workEnd, workEntrie.getBreaks().get(0).getEnd());
     }
 
     @Test
