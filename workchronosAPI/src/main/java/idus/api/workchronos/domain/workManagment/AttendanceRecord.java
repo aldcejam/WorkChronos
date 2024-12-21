@@ -2,6 +2,7 @@ package idus.api.workchronos.domain.workManagment;
 
 import lombok.Getter;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,6 +14,7 @@ public class AttendanceRecord {
     private final UUID userId;
     private final LocalDate workDate;
     private final WorkEntrie entrie;
+    private final Duration workDuration;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
@@ -21,6 +23,7 @@ public class AttendanceRecord {
         this.userId = userId;
         this.workDate = workDate;
         this.entrie = entrie;
+        this.workDuration = this.entrie.getWorkDuration();
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

@@ -3,10 +3,7 @@ package idus.api.workchronos.infra.api.controllers;
 import idus.api.workchronos.application.AttendenceRecordService;
 import idus.api.workchronos.domain.workManagment.AttendanceRecord;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -41,6 +38,12 @@ public class AttendenceRecordController {
     @PostMapping("/{userId}/finish-break")
     public ResponseEntity<AttendanceRecord> finishBreak(@PathVariable UUID userId) {
         AttendanceRecord record = this.attendenceRecordService.finishBreak(userId);
+        return ResponseEntity.ok(record);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<AttendanceRecord> getAttendanceRecord(@PathVariable UUID userId) {
+        AttendanceRecord record = this.attendenceRecordService.getAttendanceRecordByUserID(userId);
         return ResponseEntity.ok(record);
     }
 }

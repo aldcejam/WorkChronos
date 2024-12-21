@@ -10,6 +10,7 @@ import idus.api.workchronos.domain.ValueObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,6 @@ public class WorkEntrie extends ValueObject {
         lastBreak.finishBreak(breakEnd);
     }
 
-
     public String toString() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -92,6 +92,20 @@ public class WorkEntrie extends ValueObject {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @JsonIgnore
+    public Duration getTotalBreakDuration() {
+        return this.breaks.stream()
+                .map(WorkBreak::getDuration)
+                .reduce(Duration.ZERO, Duration::plus);
+    }
+
+    @JsonIgnore
+    public Duration getWorkDuration() {
+        if (this.workStart == null) throw new IllegalStateException("Work must be started before calculating its duration");
+        LocalTime workEnd = this.workEnd != null ? this.workEnd : LocalTime.now();
+        return Duration.between(this.workStart, workEnd).minus(this.getTotalBreakDuration());
     }
 
 }

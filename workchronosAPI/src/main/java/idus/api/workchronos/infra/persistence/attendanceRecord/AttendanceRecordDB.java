@@ -33,7 +33,7 @@ public class AttendanceRecordDB {
     @Column(name = "work_date", nullable = false)
     private LocalDate workDate;
 
-    @Column(name = "entries", nullable = false)
+    @Column(name = "entries", nullable = false, columnDefinition = "json")
     private String entries;
 
     @Column(name = "created_at")

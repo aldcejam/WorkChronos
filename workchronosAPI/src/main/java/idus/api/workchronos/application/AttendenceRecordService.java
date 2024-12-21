@@ -95,7 +95,7 @@ public class AttendenceRecordService {
         return record;
     }
 
-    public AttendanceRecord getLatestRecord(UUID userID) {
+    public AttendanceRecord getAttendanceRecordByUserID(UUID userID) {
         UserDB userDB = userRepository.findById(userID)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
