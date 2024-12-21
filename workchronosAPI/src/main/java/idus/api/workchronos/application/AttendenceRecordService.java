@@ -38,5 +38,24 @@ public class AttendenceRecordService {
         return record;
     }
 
+    public AttendanceRecord finishDay(UUID userID) {
+        UserDB userDB = userRepository.findById(userID)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        AttendanceRecordDB latestRecordDB = attendanceRecordRepository.findLatestByUser(userDB)
+                .orElseThrow(() -> new RuntimeException("User is not working"));
+
+        AttendanceRecord latestRecord = latestRecordDB.toDomain();
+
+        AttendanceRecord record = latestRecord.finishDay();
+
+        latestRecordDB.setWorkDate(record.getWorkDate());
+        latestRecordDB.setEntries(record.getEntrie().toString());
+
+        attendanceRecordRepository.save(latestRecordDB);
+
+        return record;
+    }
+
 
 }

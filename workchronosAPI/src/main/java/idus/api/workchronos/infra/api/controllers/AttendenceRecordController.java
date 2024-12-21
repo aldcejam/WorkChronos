@@ -22,4 +22,9 @@ public class AttendenceRecordController {
     public void startDay(@PathVariable UUID userId) {
         this.attendenceRecordService.startDay(userId);
     }
+
+    @PostMapping("/{userId}/finish-day")
+    public void finishDay(@PathVariable UUID userId) {
+        this.attendenceRecordService.finishDay(userId);
+    }
 }
