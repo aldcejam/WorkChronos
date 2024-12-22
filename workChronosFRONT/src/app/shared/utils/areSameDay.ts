@@ -17,8 +17,8 @@ import { DateTime } from 'luxon';
  */
 export const areSameDay = (date1?: string, date2?: string): boolean => {
   if (!date1 || !date2) return false
-  const firstDate = DateTime.fromISO(date1).startOf('day');
-  const secondDate = DateTime.fromISO(date2).startOf('day');
+  const parsedDate1 = DateTime.fromFormat(date1, 'dd/MM/yyyy').toISODate(); 
+  const parsedDate2 = DateTime.fromISO(date2).toISODate();
 
-  return firstDate.equals(secondDate);
+  return parsedDate1 === parsedDate2;
 }

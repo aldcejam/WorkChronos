@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { DateTime } from 'luxon'; // Importe o DateTime do Luxon
+import { DateTime } from 'luxon';
 import { AttendanceRecordGateway, AttendanceRecordOutput } from '../../api/services/attendance-record-gateway';
 import { areSameDay } from '../../shared/utils/areSameDay';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { NavbarComponent } from "../../components/navbar/navbar.component";
+import { generateGreeting } from '../../shared/utils/generateGreeting';
+import { UserGateway, UserOutput } from '../../api/services/user-gateway';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -12,38 +15,46 @@ import { NavbarComponent } from "../../components/navbar/navbar.component";
   imports: [SidebarComponent, NavbarComponent]
 })
 export class HomeComponent implements OnInit {
-  user = {
-    name: 'John Doe',
-    email: ''
-  };
+  
+  private userID = '2bb488d4-4d76-4503-8662-796cc3521d35';
+  user?: UserOutput;
+  latestRecord?: AttendanceRecordOutput;
 
-  _latestRecord?: AttendanceRecordOutput;
-  latestRecordIsToday: boolean = false;
+  greeting = generateGreeting();
 
-  constructor(private attendanceRecordGateway: AttendanceRecordGateway) {}
+  constructor(
+    private attendanceRecordGateway: AttendanceRecordGateway,
+    private userGateway: UserGateway
+  ) {}
 
   ngOnInit() {
-    this.loadAttendanceRecords('2bb488d4-4d76-4503-8662-796cc3521d35');
-  }
+    forkJoin({
+      user: this.loadUser(this.userID),
+      attendanceRecord: this.loadAttendanceRecord(this.userID)
+    }).subscribe({
+      next: ({ user, attendanceRecord }) => {
+        this.user = user;
 
-  set latestRecord(value: AttendanceRecordOutput | undefined) {
-    this._latestRecord = value;
-    this.latestRecordIsToday = areSameDay(value?.entrie.workStart, DateTime.now().toISO());
-  }
+        console.log(attendanceRecord.workDate);
+        console.log(DateTime.now().toISO());
+        console.log(areSameDay(attendanceRecord?.entrie.workStart, DateTime.now().toISO()));
 
-  get latestRecord(): AttendanceRecordOutput | undefined {
-    return this._latestRecord;
-  }
-
-  loadAttendanceRecords(userId: string) {
-    this.attendanceRecordGateway.getlatestByUserID(userId).subscribe({
-      next: (records) => {
-        this.latestRecord = records;
-        console.log('Registros de presença carregados com sucesso', records);
+        if (areSameDay(attendanceRecord?.entrie.workStart, DateTime.now().toISO().)){
+          this.latestRecord = attendanceRecord;
+        }
+        
       },
       error: (error) => {
-        console.error('Erro ao carregar os registros de presença', error);
+        console.error('Erro ao carregar os dados:', error);
       }
     });
+  }
+
+  loadAttendanceRecord(userId: string) {
+    return this.attendanceRecordGateway.getlatestByUserID(userId);
+  }
+
+  loadUser(userId: string) {
+    return this.userGateway.getById(userId);
   }
 }

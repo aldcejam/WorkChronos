@@ -15,7 +15,6 @@ export class AttendanceRecordGateway {
 
   constructor(private http: HttpClient) {}
 
-  // Função para formatar o retorno de todos os registros de presença
   private formatAttendanceRecordOutput(record: AttendanceRecordOutput): AttendanceRecordOutput {
     return {
       id: record.id,
@@ -36,21 +35,18 @@ export class AttendanceRecordGateway {
     };
   }
 
-  // Método para obter o registro mais recente de presença
   getlatestByUserID(id: string): Observable<AttendanceRecordOutput> {
     return this.http.get<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.GET_LATEST_BY_USER_ID(id)).pipe(
       map(record => this.formatAttendanceRecordOutput(record)) // Formata o retorno
     );
   }
 
-  // Método para listar todos os registros de presença por ID de usuário
   listByUserID(id: string): Observable<AttendanceRecordOutput[]> {
     return this.http.get<AttendanceRecordOutput[]>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.LIST_BY_USER_ID(id)).pipe(
       map(records => records.map(record => this.formatAttendanceRecordOutput(record))) // Formata todos os registros
     );
   }
 
-  // Outros métodos...
   startDay(userID: string): Observable<AttendanceRecordOutput> {
     return this.http.post<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.START_DAY('userID'), {}).pipe(
       map(record => this.formatAttendanceRecordOutput(record))

@@ -2,7 +2,10 @@ export class API_CONFIG {
   private static readonly BASE_URL = 'http://localhost:8080';
 
   public static readonly ENDPOINTS = {
-    USERS: '/users',
+    USERS: {
+      GET_BY_ID: (id: string) => `${API_CONFIG.BASE_URL}/user/${id}`,
+      LIST: `${API_CONFIG.BASE_URL}/user`,  
+    },
     ATTENDANCE_RECORD: {
       GET_LATEST_BY_USER_ID: (id: string) => `${API_CONFIG.BASE_URL}/attendance-record/${id}/latest`,
       LIST_BY_USER_ID: (id: string) => `${API_CONFIG.BASE_URL}/attendance-record/${id}/list`,
