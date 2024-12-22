@@ -1,4 +1,4 @@
-import { API_CONFIG } from './../api.config';
+import { API_CONFIG } from '../api.config';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
