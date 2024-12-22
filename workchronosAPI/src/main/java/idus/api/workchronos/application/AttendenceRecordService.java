@@ -7,6 +7,8 @@ import idus.api.workchronos.infra.persistence.user.UserDB;
 import idus.api.workchronos.infra.persistence.user.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -95,7 +97,7 @@ public class AttendenceRecordService {
         return record;
     }
 
-    public AttendanceRecord getAttendanceRecordByUserID(UUID userID) {
+    public AttendanceRecord getAttendanceLatestRecordByUserID(UUID userID) {
         UserDB userDB = userRepository.findById(userID)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -105,4 +107,14 @@ public class AttendenceRecordService {
         return latestRecordDB.toDomain();
     }
 
+    public List<AttendanceRecord> getAttendanceRecordByUserID(UUID userID) {
+        UserDB userDB = userRepository.findById(userID)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<AttendanceRecordDB> recordDBs = attendanceRecordRepository.findAll();
+
+        return recordDBs.stream()
+                .map(AttendanceRecordDB::toDomain)
+                .toList();
+    }
 }

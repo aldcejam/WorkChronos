@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -34,6 +35,9 @@ public class UserDB {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(name = "daily_work_hours")
+    private Duration dailyWorkHours;
 
     @Column(nullable = false)
     private String password;
@@ -77,6 +81,7 @@ public class UserDB {
                 id,
                 name,
                 email,
+                dailyWorkHours,
                 password,
                 role,
                 phone,

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,6 +24,7 @@ public class UserService {
         User newUser = User.NewUser(
                 user.name(),
                 user.email(),
+                user.dailyWorkHours(),
                 user.password(),
                 user.role(),
                 user.phone(),
@@ -41,5 +43,10 @@ public class UserService {
         UserDB user = userRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found"));
         return user.toDomain();
+    }
+
+    public List<User> getAllUsers() {
+        List<UserDB> users = userRepository.findAll();
+        return users.stream().map(UserDB::toDomain).toList();
     }
 }

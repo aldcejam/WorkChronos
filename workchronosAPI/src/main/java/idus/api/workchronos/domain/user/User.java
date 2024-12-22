@@ -2,6 +2,7 @@ package idus.api.workchronos.domain.user;
 
 import lombok.Getter;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,6 +12,7 @@ public class User {
     private final UUID id;
     private final String name;
     private final String email;
+    private final Duration dailyWorkHours;
     private final String password;
     private final UserRole role;
     private final String phone;
@@ -20,10 +22,11 @@ public class User {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    private User(UUID id, String name, String email, String password, UserRole role, String phone, LocalDate birthDate, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private User(UUID id, String name, String email, Duration dailyWorkHours,String password, UserRole role, String phone, LocalDate birthDate, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.dailyWorkHours = dailyWorkHours;
         this.password = password;
         this.role = role;
         this.phone = phone;
@@ -34,14 +37,15 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
-    public static User NewUser(String name, String email, String password, UserRole role, String phone, LocalDate birthDate, LocalDateTime startDate, LocalDateTime endDate) {
-        return new User(null, name, email, password, role, phone, birthDate, startDate, endDate, null, null);
+    public static User NewUser(String name, String email, Duration dailyWorkHours, String password, UserRole role, String phone, LocalDate birthDate, LocalDateTime startDate, LocalDateTime endDate) {
+        return new User(null, name, email, dailyWorkHours, password, role, phone, birthDate, startDate, endDate, null, null);
     }
 
     public static User with(
             final UUID id,
             final String name,
             final String email,
+            final Duration dailyWorkHours,
             final String password,
             final UserRole role,
             final String phone,
@@ -53,6 +57,7 @@ public class User {
                 id,
                 name,
                 email,
+                dailyWorkHours,
                 password,
                 role,
                 phone,

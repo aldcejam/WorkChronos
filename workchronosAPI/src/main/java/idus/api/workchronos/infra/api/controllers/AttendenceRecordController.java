@@ -5,6 +5,7 @@ import idus.api.workchronos.domain.workManagment.AttendanceRecord;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController()
@@ -41,9 +42,15 @@ public class AttendenceRecordController {
         return ResponseEntity.ok(record);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}/latest")
     public ResponseEntity<AttendanceRecord> getAttendanceRecord(@PathVariable UUID userId) {
-        AttendanceRecord record = this.attendenceRecordService.getAttendanceRecordByUserID(userId);
+        AttendanceRecord record = this.attendenceRecordService.getAttendanceLatestRecordByUserID(userId);
+        return ResponseEntity.ok(record);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<AttendanceRecord>> ListAttendanceRecord(@PathVariable UUID userId) {
+        List<AttendanceRecord> record = this.attendenceRecordService.getAttendanceRecordByUserID(userId);
         return ResponseEntity.ok(record);
     }
 }

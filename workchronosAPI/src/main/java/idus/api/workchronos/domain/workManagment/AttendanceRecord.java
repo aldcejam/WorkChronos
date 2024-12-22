@@ -30,7 +30,7 @@ public class AttendanceRecord {
 
     public static AttendanceRecord startDay (UUID userId, AttendanceRecord latestRecord) {
         WorkEntrie latestEntrie = latestRecord != null ? latestRecord.getEntrie() : null;
-        if (latestEntrie != null && latestEntrie.isWorking()) throw new RuntimeException("User is already working");
+        if (latestEntrie != null && latestEntrie.isWorking()) throw new IllegalArgumentException("User is already working");
 
         WorkEntrie workEntries = WorkEntrie.startWork(LocalTime.now());
         LocalDate workDate = LocalDate.now();
@@ -38,19 +38,19 @@ public class AttendanceRecord {
     }
 
     public AttendanceRecord finishDay() {
-        if (!this.entrie.isWorking()) throw new RuntimeException("User is not working");
+        if (!this.entrie.isWorking()) throw new IllegalArgumentException("User is not working");
         this.entrie.finishWork(LocalTime.now());
         return this;
     }
 
     public AttendanceRecord startBreak() {
-        if (!this.entrie.isWorking()) throw new RuntimeException("User is not working");
+        if (!this.entrie.isWorking()) throw new IllegalArgumentException("User is not working");
         this.entrie.startBreak(LocalTime.now());
         return this;
     }
 
     public AttendanceRecord finishBreak() {
-        if (!this.entrie.isWorking()) throw new RuntimeException("User is not working");
+        if (!this.entrie.isWorking()) throw new IllegalArgumentException("User is not working");
         this.entrie.finishBreak(LocalTime.now());
         return this;
     }
