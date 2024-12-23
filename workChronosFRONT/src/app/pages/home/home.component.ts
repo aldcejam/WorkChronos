@@ -6,7 +6,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { generateGreeting } from '../../shared/utils/generateGreeting';
 import { UserGateway, UserOutput } from '../../api/services/user-gateway';
-import { BehaviorSubject, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -29,8 +29,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     forkJoin({
-      user: this.loadUser(this.userID),
-      attendanceRecord: this.loadAttendanceRecord(this.userID)
+      user: this.userGateway.getById(this.userID),
+      attendanceRecord: this.attendanceRecordGateway.getlatestByUserID(this.userID)
     }).subscribe({
       next: ({ user, attendanceRecord }) => {
         this.user = user;
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
         console.log(DateTime.now().toISO());
         console.log(areSameDay(attendanceRecord?.entrie.workStart, DateTime.now().toISO()));
 
-        if (areSameDay(attendanceRecord?.entrie.workStart, DateTime.now().toISO().)){
+        if (true){
           this.latestRecord = attendanceRecord;
         }
         
@@ -48,13 +48,5 @@ export class HomeComponent implements OnInit {
         console.error('Erro ao carregar os dados:', error);
       }
     });
-  }
-
-  loadAttendanceRecord(userId: string) {
-    return this.attendanceRecordGateway.getlatestByUserID(userId);
-  }
-
-  loadUser(userId: string) {
-    return this.userGateway.getById(userId);
-  }
+  } 
 }

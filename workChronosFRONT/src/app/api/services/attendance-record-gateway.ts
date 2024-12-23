@@ -1,7 +1,7 @@
 import { formatDateTime, formatDuration } from './../../shared/utils/formatDate';
 import { API_CONFIG } from '../api.config';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { formatDate } from '../../shared/utils/formatDate';
@@ -10,10 +10,21 @@ import { formatDate } from '../../shared/utils/formatDate';
   providedIn: 'root'
 })
 export class AttendanceRecordGateway {
-  
+  authToken: string | null;
   private API_CONFIG = API_CONFIG;
 
-  constructor(private http: HttpClient) {}
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    if (this.authToken) {
+      headers = headers.set('Authorization', `Bearer ${this.authToken}`);
+    }
+    return headers;
+  }
+
+
+  constructor(private http: HttpClient) {
+    this.authToken = localStorage.getItem('authToken');
+  }
 
   private formatAttendanceRecordOutput(record: AttendanceRecordOutput): AttendanceRecordOutput {
     return {

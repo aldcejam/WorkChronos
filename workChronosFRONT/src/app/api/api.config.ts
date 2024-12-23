@@ -6,6 +6,10 @@ export class API_CONFIG {
       GET_BY_ID: (id: string) => `${API_CONFIG.BASE_URL}/user/${id}`,
       LIST: `${API_CONFIG.BASE_URL}/user`,  
     },
+    AUTH: {
+      LOGIN: `${API_CONFIG.BASE_URL}/auth/login`,
+      REGISTER: `${API_CONFIG.BASE_URL}/auth/register`,
+    },
     ATTENDANCE_RECORD: {
       GET_LATEST_BY_USER_ID: (id: string) => `${API_CONFIG.BASE_URL}/attendance-record/${id}/latest`,
       LIST_BY_USER_ID: (id: string) => `${API_CONFIG.BASE_URL}/attendance-record/${id}/list`,

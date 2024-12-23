@@ -15,10 +15,10 @@ import { DateTime } from 'luxon';
  * const date2 = '2024-12-22T10:00:00';
  * console.log(areSameDay(date1, date2)); // true se ambas forem do mesmo dia
  */
-export const areSameDay = (date1?: string, date2?: string): boolean => {
+export const areSameDay = (date1: string, date2: string): boolean => {
   if (!date1 || !date2) return false
-  const parsedDate1 = DateTime.fromFormat(date1, 'dd/MM/yyyy').toISODate(); 
-  const parsedDate2 = DateTime.fromISO(date2).toISODate();
+  const firstDate = DateTime.fromISO(date1).startOf('day');
+  const secondDate = DateTime.fromISO(date2).startOf('day');
 
-  return parsedDate1 === parsedDate2;
+  return firstDate.equals(secondDate);
 }

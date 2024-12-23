@@ -111,6 +111,7 @@ public class UserDB implements UserDetails {
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
+                .dailyWorkHours(user.getDailyWorkHours())
                 .password(user.getPassword())
                 .role(user.getRole())
                 .phone(user.getPhone())

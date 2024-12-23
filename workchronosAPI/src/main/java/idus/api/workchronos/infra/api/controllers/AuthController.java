@@ -2,6 +2,8 @@ package idus.api.workchronos.infra.api.controllers;
 
 import idus.api.workchronos.application.UserService;
 import idus.api.workchronos.dtos.user.CreateUserInput;
+import idus.api.workchronos.dtos.user.LoginUserInput;
+import idus.api.workchronos.dtos.user.LoginUserOutput;
 import idus.api.workchronos.infra.persistence.user.UserDB;
 import idus.api.workchronos.infra.security.TokenService;
 import jakarta.validation.Valid;
@@ -24,13 +26,13 @@ public class AuthController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid UserLoginInput data){
+    public ResponseEntity login(@RequestBody @Valid LoginUserInput data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((UserDB) auth.getPrincipal());
 
-        return ResponseEntity.ok(new UserLoginOutput(token));
+        return ResponseEntity.ok(new LoginUserOutput(token));
     }
 
     @PostMapping("/register")
@@ -40,8 +42,3 @@ public class AuthController {
     }
 }
 
-record UserLoginInput(String email, String password) {
-}
-
-record UserLoginOutput(String token) {
-}

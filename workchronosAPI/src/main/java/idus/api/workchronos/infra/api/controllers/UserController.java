@@ -2,8 +2,6 @@ package idus.api.workchronos.infra.api.controllers;
 
 import idus.api.workchronos.application.UserService;
 import idus.api.workchronos.domain.user.User;
-import idus.api.workchronos.dtos.user.CreateUserInput;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +16,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping()
-    public void createUser(@Valid @RequestBody CreateUserInput user) {
-        userService.createUser(user);
     }
 
     @GetMapping("/{id}")
