@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DateTime, Duration } from 'luxon';
+import { DateTime, Duration, DurationLike } from 'luxon';
 import { AttendanceRecordGateway, AttendanceRecordOutput } from '../../api/services/attendance-record-gateway';
 import { areSameDay } from '../../shared/utils/areSameDay';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
@@ -39,10 +39,7 @@ export class HomeComponent implements OnInit {
   set latestRecord(record: AttendanceRecordOutput | undefined) {
     if (!record) return;
     this._latestRecord = record;
-    console.log(record.workDuration);
-    const workDuration = Duration.fromISO(record.workDuration);
-    console.log(workDuration);
-    this.remainingHoursToWork = Duration.fromObject({ hours: 8 }).minus(workDuration);
+    this.remainingHoursToWork = Duration.fromObject({ hours: 8 }).minus(record.workDuration as DurationLike);
   }
 
   start() {
@@ -97,6 +94,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  startAnotherDay() {
+    this.start();
+    this.availableActions = ['start'];
+  }
   
   ngOnInit() {
     if (!this.user) return;
@@ -105,7 +106,6 @@ export class HomeComponent implements OnInit {
       attendanceRecord: this.attendanceRecordGateway.getlatestByUserID(this.user.id)
     }).subscribe({
       next: ({ user, attendanceRecord }) => {
-        console.log(this.availableActions + "aaaaa");
         const today = DateTime.now().day;
         const latestRecordIsToday = DateTime.fromFormat(attendanceRecord.entrie.workStart, 'HH:mm dd/MM/yyyy').day === today;
         

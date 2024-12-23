@@ -18,3 +18,10 @@ O projeto utiliza as seguintes tecnologias no backend:
 - Spring Boot Starter Web  
 - Lombok  
 
+## Funcionalidades
+- Registro e Login (registro apenas backend)
+- Registro de pontos
+
+## Como executar
+apenas executar `docker-compose up` na raiz do projeto
+**OBS:** O projeto foi desenvolvido com o objetivo do testador não precisar configurar nada, apenas executar o comando acima e testar as funcionalidades. Por este motivos que informações sensivéis como senha do banco de dados e chave de segurança estão expostas no código.

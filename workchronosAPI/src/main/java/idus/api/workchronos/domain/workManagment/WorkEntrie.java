@@ -50,7 +50,6 @@ public class WorkEntrie extends ValueObject {
     public void finishWork(LocalTime workEnd) {
         if (this.workStart == null) throw new IllegalStateException("Work must be started before ending it");
         if (this.workEnd != null) throw new IllegalStateException("Work has already ended");
-        var currentBreak = this.getCurrentBreak();
         if (!this.breaks.isEmpty() && this.getCurrentBreak().getEnd() == null) this.getCurrentBreak().finishBreak(workEnd);
         this.workEnd = workEnd;
     }

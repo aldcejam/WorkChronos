@@ -1,5 +1,5 @@
 services:
-  service:
+  api:
     build:
       context: .
       dockerfile: dockerfile
@@ -21,6 +21,15 @@ services:
       POSTGRES_DB: workChronosDB
     volumes:
       - ./data/workChronosDB:/var/lib/postgresql/data
+    networks:
+      - workChronosNetwork
+  frontend:
+    build:
+      context: .
+      dockerfile: dockerfile.front
+    ports:
+      - "80:80"
+    container_name: workChronosFrontend
     networks:
       - workChronosNetwork
 

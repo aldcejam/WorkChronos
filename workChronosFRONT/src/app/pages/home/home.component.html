@@ -63,44 +63,49 @@
               </p>
             </div>
           </div>
+          @for (action of availableActions; track $index) {
+            <div class="flex flex-col items-center">
+              @if (action === 'start') {
+                <button
+                  class="px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600"
+                  (click)="start()"
+                >
+                  Iniciar Dia
+                </button>
+              }
+              @if (action === 'end') {
+                <button
+                  class="px-4 py-2 mt-2 text-white bg-red-500 rounded hover:bg-red-600"
+                  (click)="finish()"
+                >
+                  Finalizar Dia
+                </button>
+              }
+              @if (action === 'startBreak') {
+                <button
+                  class="px-4 py-2 mt-2 text-white bg-yellow-500 rounded hover:bg-yellow-600"
+                  (click)="startBreak()"
+                >
+                  Iniciar Pausa
+                </button>
+              }
+              @if (action === 'endBreak') {
+                <button
+                  class="px-4 py-2 mt-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+                  (click)="finishBreak()"
+                >
+                  Finalizar Pausa
+                </button>
+              }
+            </div>
+          }
         </div>
-        @for (action of availableActions; track $index) {
-          <div class="flex flex-col items-center">
-            @if (action === 'start') {
-              <button
-                class="px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600"
-                (click)="start()"
-              >
-                Iniciar Dia
-              </button>
-            }
-            @if (action === 'end') {
-              <button
-                class="px-4 py-2 mt-2 text-white bg-red-500 rounded hover:bg-red-600"
-                (click)="finish()"
-              >
-                Finalizar Dia
-              </button>
-            }
-            @if (action === 'startBreak') {
-              <button
-                class="px-4 py-2 mt-2 text-white bg-yellow-500 rounded hover:bg-yellow-600"
-                (click)="startBreak()"
-              >
-                Iniciar Pausa
-              </button>
-            }
-            @if (action === 'endBreak') {
-              <button
-                class="px-4 py-2 mt-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-                (click)="finishBreak()"
-              >
-                Finalizar Pausa
-              </button>
-            }
-          </div>
-        }
       </div>
     </div>
+    <button class="relative mt-5 inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" (click)="startAnotherDay()">
+      <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+        Testar novo dia
+      </span>
+    </button>
   </div>
 </div>
