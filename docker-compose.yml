@@ -1,0 +1,30 @@
+services:
+  service:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: workChronosAPI
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - workChronosNetwork
+  db:
+    image: postgres:14
+    container_name: workChronosDB
+    ports:
+      - "9090:5432"
+    environment:
+      POSTGRES_USER: chronos
+      POSTGRES_PASSWORD: chronos
+      POSTGRES_DB: workChronosDB
+    volumes:
+      - ./data/workChronosDB:/var/lib/postgresql/data
+    networks:
+      - workChronosNetwork
+
+networks:
+  workChronosNetwork:
+    driver: bridge
+      
