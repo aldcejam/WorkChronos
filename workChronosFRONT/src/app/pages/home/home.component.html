@@ -1,0 +1,111 @@
+<navbar-comp/>
+<sidebar-comp/>
+
+<div class="p-4 sm:ml-64 ">
+  <div class="relative  p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-16">
+    <div
+      class="w-full min-h-[50vh] p-4 text-left text-white bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <h2 class="font-black text-2xl">{{ greeting }}, {{user?.name}}</h2>
+      
+      {{ latestRecord?.workDate }}
+      <ol class="relative border-s border-gray-200 dark:border-gray-700 mt-5">
+        @if (latestRecord?.entrie?.workStart) {
+          <li class="mb-10 ms-4">
+            <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Dia Iniciado {{ latestRecord?.entrie?.workStart }}</h3>
+          </li>
+        } 
+
+        @for (break of latestRecord?.entrie?.breaks; track break.start) {
+          @if (break.start) {
+            <li class="mb-10 ms-4">
+              <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+              <div class="flex items-center gap-2">
+                @if (!break.end) {<img src="icons/clock-running.svg" alt="Arrow right">}
+                @if (break.end) {<img src="icons/clock.svg" alt="Arrow right">}
+                <p>Inicio de pausa {{ break.start }}</p>
+              </div>
+            </li>
+          }
+          @if (break.end) {
+            <li class="mb-10 ms-4">
+              <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+              <div class="flex items-center gap-2">
+                <img src="icons/clock.svg" alt="Arrow right">
+                <p>Fim de pausa {{ break.end }}</p>
+              </div>
+            </li>
+          }
+          
+        }
+        @if (latestRecord?.entrie?.workEnd) {
+          <li class="mb-10 ms-4">
+            <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Dia Finalizado {{ latestRecord?.entrie?.workEnd }}</h3>
+          </li>
+        } 
+      </ol>
+
+      <div class="absolute top-12 right-12 flex flex-col bg-[#efefef] rounded-3xl">
+        <div class="px-6 py-8 sm:p-10 sm:pb-6">
+          <div class="grid items-center justify-center w-full grid-cols-1 text-left">
+            <div>
+              <h2 class="text-lg font-medium tracking-tighter text-black lg:text-3xl">
+                Horas Restantes
+              </h2> 
+            </div>
+            <div class="mt-6">
+              <p>
+                <span class="text-5xl font-light tracking-tight text-black">
+                  {{remainingHoursToWork.toFormat('hh:mm:ss') }}
+                                    </span>
+                <span class="text-base font-medium text-white"> /mo </span>
+              </p>
+            </div>
+          </div>
+          @for (action of availableActions; track $index) {
+            <div class="flex flex-col items-center">
+              @if (action === 'start') {
+                <button
+                  class="px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600"
+                  (click)="start()"
+                >
+                  Iniciar Dia
+                </button>
+              }
+              @if (action === 'end') {
+                <button
+                  class="px-4 py-2 mt-2 text-white bg-red-500 rounded hover:bg-red-600"
+                  (click)="finish()"
+                >
+                  Finalizar Dia
+                </button>
+              }
+              @if (action === 'startBreak') {
+                <button
+                  class="px-4 py-2 mt-2 text-white bg-yellow-500 rounded hover:bg-yellow-600"
+                  (click)="startBreak()"
+                >
+                  Iniciar Pausa
+                </button>
+              }
+              @if (action === 'endBreak') {
+                <button
+                  class="px-4 py-2 mt-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+                  (click)="finishBreak()"
+                >
+                  Finalizar Pausa
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+    <button class="relative mt-5 inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" (click)="startAnotherDay()">
+      <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+        Testar novo dia
+      </span>
+    </button>
+  </div>
+</div>

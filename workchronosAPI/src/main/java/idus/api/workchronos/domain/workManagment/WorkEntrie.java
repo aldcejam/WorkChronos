@@ -39,7 +39,6 @@ public class WorkEntrie extends ValueObject {
     public WorkBreak getCurrentBreak() {
         if (this.breaks.isEmpty()) return null;
         WorkBreak lastBreak = this.breaks.get(this.breaks.size() - 1);
-        if (lastBreak.getEnd() != null) return null;
         return lastBreak;
     }
 

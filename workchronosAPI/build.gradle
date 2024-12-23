@@ -41,3 +41,12 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.named('bootJar') {
+    archiveBaseName = 'workchronos-api'
+    archiveVersion = '0.0.1-SNAPSHOT'
+}
+
+springBoot {
+    mainClass = 'idus.api.workchronos.WorkchronosApplication'
+}

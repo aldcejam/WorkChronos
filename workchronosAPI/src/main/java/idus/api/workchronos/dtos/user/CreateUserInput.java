@@ -3,6 +3,7 @@ package idus.api.workchronos.dtos.user;
 import idus.api.workchronos.domain.user.UserRole;
 import jakarta.validation.constraints.*;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -15,6 +16,9 @@ public record CreateUserInput(
         @Email(message = "Invalid email format")
         @Size(max = 255, message = "Email cannot exceed 255 characters")
         String email,
+
+        @NotNull(message = "Daily work hours is required")
+        Duration dailyWorkHours,
 
         @NotBlank(message = "Password cannot be blank")
         @Size(min = 8, message = "Password must have at least 8 characters")

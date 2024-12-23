@@ -36,7 +36,7 @@ public class AttendanceRecordTest {
                 LocalDateTime.now()
         );
 
-        final var exception = Assertions.assertThrows(RuntimeException.class, () ->
+        final var exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
                 AttendanceRecord.startDay(userId, latestRecord)
         );
 
@@ -79,7 +79,7 @@ public class AttendanceRecordTest {
 
         latestRecord.finishDay();
 
-        final var exception = Assertions.assertThrows(RuntimeException.class, () ->
+        final var exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
                 latestRecord.startBreak()
         );
 
@@ -121,7 +121,7 @@ public class AttendanceRecordTest {
 
         latestRecord.finishDay();
 
-        final var exception = Assertions.assertThrows(RuntimeException.class, () ->
+        final var exception = Assertions.assertThrows(IllegalArgumentException.class, () ->
                 latestRecord.finishBreak()
         );
 

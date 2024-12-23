@@ -1,0 +1,20 @@
+# Use uma imagem base com Node.js e Alpine
+FROM node:alpine
+
+# Defina o diretório de trabalho dentro do container
+WORKDIR /usr/src/app
+
+# Copie o conteúdo da pasta 'workChronosFRONT' para o diretório de trabalho no container
+COPY workChronosFRONT /usr/src/app
+
+# Instale o Angular CLI globalmente
+RUN npm install -g @angular/cli
+
+# Se você já tem um arquivo 'yarn.lock' no projeto, use 'yarn install' para instalar dependências
+RUN yarn install --frozen-lockfile
+
+# Exponha a porta onde o Angular vai rodar (default: 4200)
+EXPOSE 4200
+
+# Comando para iniciar a aplicação Angular
+CMD ["ng", "serve", "--host", "0.0.0.0"]

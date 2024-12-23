@@ -5,8 +5,11 @@ import idus.api.workchronos.infra.persistence.attendanceRecord.AttendanceRecordD
 import idus.api.workchronos.infra.persistence.attendanceRecord.AttendanceRecordRepository;
 import idus.api.workchronos.infra.persistence.user.UserDB;
 import idus.api.workchronos.infra.persistence.user.UserRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -95,14 +98,24 @@ public class AttendenceRecordService {
         return record;
     }
 
-    public AttendanceRecord getAttendanceRecordByUserID(UUID userID) {
+    public AttendanceRecord getAttendanceLatestRecordByUserID(UUID userID) {
         UserDB userDB = userRepository.findById(userID)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        AttendanceRecordDB latestRecordDB = attendanceRecordRepository.findLatestByUser(userDB)
-                .orElseThrow(() -> new RuntimeException("User has no record"));
+        Optional<AttendanceRecordDB> latestRecordDB = attendanceRecordRepository.findLatestByUser(userDB);
 
-        return latestRecordDB.toDomain();
+        return latestRecordDB.map(AttendanceRecordDB::toDomain)
+                .orElseThrow(() -> new RuntimeException("User is not working"));
     }
 
+    public List<AttendanceRecord> getAttendanceRecordByUserID(UUID userID) {
+        UserDB userDB = userRepository.findById(userID)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<AttendanceRecordDB> recordDBs = attendanceRecordRepository.findAll();
+
+        return recordDBs.stream()
+                .map(AttendanceRecordDB::toDomain)
+                .toList();
+    }
 }
