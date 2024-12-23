@@ -28,7 +28,7 @@ services:
       context: .
       dockerfile: dockerfile.front
     ports:
-      - "80:80"
+      - "4200:4200" 
     container_name: workChronosFrontend
     networks:
       - workChronosNetwork

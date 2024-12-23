@@ -1,19 +1,20 @@
-FROM node:18 AS build
+# Use uma imagem base com Node.js e Alpine
+FROM node:alpine
 
-WORKDIR /app
+# Defina o diretório de trabalho dentro do container
+WORKDIR /usr/src/app
 
-COPY workChronosFRONT/package.json workChronosFRONT/package-lock.json ./
+# Copie o conteúdo da pasta 'workChronosFRONT' para o diretório de trabalho no container
+COPY workChronosFRONT /usr/src/app
 
-RUN npm install
+# Instale o Angular CLI globalmente
+RUN npm install -g @angular/cli
 
-COPY workChronosFRONT/ ./
+# Se você já tem um arquivo 'yarn.lock' no projeto, use 'yarn install' para instalar dependências
+RUN yarn install --frozen-lockfile
 
-RUN npm run build --prod
+# Exponha a porta onde o Angular vai rodar (default: 4200)
+EXPOSE 4200
 
-FROM nginx:alpine
-
-COPY --from=build /app/dist/workchronosFRONT /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Comando para iniciar a aplicação Angular
+CMD ["ng", "serve", "--host", "0.0.0.0"]
