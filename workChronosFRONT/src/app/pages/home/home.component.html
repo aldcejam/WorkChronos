@@ -57,18 +57,49 @@
             <div class="mt-6">
               <p>
                 <span class="text-5xl font-light tracking-tight text-black">
-                                      $35
+                  {{remainingHoursToWork.toFormat('hh:mm:ss') }}
                                     </span>
                 <span class="text-base font-medium text-white"> /mo </span>
               </p>
             </div>
           </div>
         </div>
-        <div class="flex px-6 pb-8 sm:px-8">
-          <a aria-describedby="tier-starter" class="items-center justify-center w-full px-6 py-2.5 text-center text-black duration-200 bg-white border-2 border-white rounded-full nline-flex hover:bg-transparent hover:border-white hover:text-white focus:outline-none focus-visible:outline-white text-sm focus-visible:ring-white" href="#">
-            Get started
-          </a>
-        </div>
+        @for (action of availableActions; track $index) {
+          <div class="flex flex-col items-center">
+            @if (action === 'start') {
+              <button
+                class="px-4 py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600"
+                (click)="start()"
+              >
+                Iniciar Dia
+              </button>
+            }
+            @if (action === 'end') {
+              <button
+                class="px-4 py-2 mt-2 text-white bg-red-500 rounded hover:bg-red-600"
+                (click)="finish()"
+              >
+                Finalizar Dia
+              </button>
+            }
+            @if (action === 'startBreak') {
+              <button
+                class="px-4 py-2 mt-2 text-white bg-yellow-500 rounded hover:bg-yellow-600"
+                (click)="startBreak()"
+              >
+                Iniciar Pausa
+              </button>
+            }
+            @if (action === 'endBreak') {
+              <button
+                class="px-4 py-2 mt-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+                (click)="finishBreak()"
+              >
+                Finalizar Pausa
+              </button>
+            }
+          </div>
+        }
       </div>
     </div>
   </div>

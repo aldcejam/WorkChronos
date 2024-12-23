@@ -51,7 +51,9 @@ public class User {
             final String phone,
             final LocalDate birthDate,
             final LocalDateTime startDate,
-            final LocalDateTime endDate
+            final LocalDateTime endDate,
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt
     ) {
         return new User(
                 id,
@@ -64,8 +66,8 @@ public class User {
                 birthDate,
                 startDate,
                 endDate,
-                null,
-                null
+                createdAt,
+                updatedAt
         );
     }
 }

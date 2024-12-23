@@ -1,25 +1,34 @@
+import { UserGateway } from './../../../api/services/user-gateway';
 import { Injectable } from '@angular/core';
 import Cookies from 'js-cookie';
+import { AuthGateway, LoginOutput } from '../../../api/services/auth-gateway';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  isLoggedIn(): boolean {
-    const token = Cookies.get('authToken');
-    return !!token;
+  private userGateway: UserGateway;
+
+  constructor(userGateway: UserGateway) {
+    this.userGateway = userGateway;
   }
 
-  setAuthToken(token: string): void {
-    Cookies.set('authToken', token, {
+  isLoggedIn(): boolean {
+    const userSession = AuthGateway.getUserSession();
+    return !!userSession;
+  }
+
+  setUserSession(userSession: LoginOutput): void {
+    Cookies.set('userSession', 
+      JSON.stringify(userSession), {
       secure: true,
       sameSite: 'Strict',
       expires: 1,
     });
   }
 
-  clearAuthToken(): void {
-    Cookies.remove('authToken');
+  clearuserSession(): void {
+    Cookies.remove('userSession');
   }
 }

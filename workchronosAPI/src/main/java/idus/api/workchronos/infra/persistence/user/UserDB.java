@@ -102,7 +102,9 @@ public class UserDB implements UserDetails {
                 phone,
                 birthDate,
                 startDate,
-                endDate
+                endDate,
+                createdAt,
+                updatedAt
         );
     }
 

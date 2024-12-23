@@ -9,18 +9,23 @@ import Cookies from 'js-cookie';
 })
 export class AuthGateway {
   private API_CONFIG = API_CONFIG;
-  authToken: string | null;
+  userSession: LoginOutput | null;
 
   private getHeaders(): HttpHeaders {
     let headers = new HttpHeaders();
-    if (this.authToken) {
-      headers = headers.set('Authorization', `Bearer ${this.authToken}`);
+    if (this.userSession) {
+      headers = headers.set('Authorization', `Bearer ${this.userSession.token}`);
     }
     return headers;
   }
 
   constructor(private http: HttpClient) {
-    this.authToken = localStorage.getItem('authToken');
+    this.userSession = AuthGateway.getUserSession();
+  }
+
+  static getUserSession(): LoginOutput | null {
+    const userSessionString = Cookies.get('userSession');
+    return userSessionString ? JSON.parse(userSessionString) : null;
   }
 
   login({ email, password }: LoginInput): Observable<LoginOutput> {
@@ -30,7 +35,7 @@ export class AuthGateway {
     }).pipe(
       tap((response: LoginOutput) => {
         if (response.token) {
-          Cookies.set('authToken', response.token, { expires: 7 });
+          Cookies.set('userSession', JSON.stringify(response), { expires: 7 });
           window.location.href = '/';
         }
       })
@@ -51,6 +56,10 @@ export interface LoginInput {
 }
 
 export interface LoginOutput {
+  id: string;
+  name: string;
+  email: string;
+  role: 'ADMIN' | 'USER';
   token: string;
 }
 

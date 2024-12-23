@@ -5,25 +5,26 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { formatDate } from '../../shared/utils/formatDate';
+import { AuthGateway, LoginOutput } from './auth-gateway';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AttendanceRecordGateway {
-  authToken: string | null;
+  userSession: LoginOutput | null;
   private API_CONFIG = API_CONFIG;
 
   private getHeaders(): HttpHeaders {
-    let headers = new HttpHeaders();
-    if (this.authToken) {
-      headers = headers.set('Authorization', `Bearer ${this.authToken}`);
+      let headers = new HttpHeaders();
+      this.userSession = AuthGateway.getUserSession();
+    if (this.userSession) {
+      headers = headers.set('Authorization', `Bearer ${this.userSession.token}`);
     }
     return headers;
   }
 
-
   constructor(private http: HttpClient) {
-    this.authToken = localStorage.getItem('authToken');
+    this.userSession = AuthGateway.getUserSession();
   }
 
   private formatAttendanceRecordOutput(record: AttendanceRecordOutput): AttendanceRecordOutput {
@@ -47,37 +48,51 @@ export class AttendanceRecordGateway {
   }
 
   getlatestByUserID(id: string): Observable<AttendanceRecordOutput> {
-    return this.http.get<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.GET_LATEST_BY_USER_ID(id)).pipe(
+    const headers = this.getHeaders();
+    return this.http.get<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.GET_LATEST_BY_USER_ID(id), {headers}).pipe(
       map(record => this.formatAttendanceRecordOutput(record)) // Formata o retorno
     );
   }
 
   listByUserID(id: string): Observable<AttendanceRecordOutput[]> {
-    return this.http.get<AttendanceRecordOutput[]>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.LIST_BY_USER_ID(id)).pipe(
+    const headers = this.getHeaders();
+    return this.http.get<AttendanceRecordOutput[]>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.LIST_BY_USER_ID(id), {headers}).pipe(
       map(records => records.map(record => this.formatAttendanceRecordOutput(record))) // Formata todos os registros
     );
   }
 
   startDay(userID: string): Observable<AttendanceRecordOutput> {
-    return this.http.post<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.START_DAY('userID'), {}).pipe(
+    const headers = this.getHeaders();
+    return this.http.post<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.START_DAY(userID), {}, 
+    {headers}
+  ).pipe(
       map(record => this.formatAttendanceRecordOutput(record))
     );
   }
 
   finishDay(userID: string): Observable<AttendanceRecordOutput> {
-    return this.http.post<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.FINISH_DAY('userID'), {}).pipe(
+    const headers = this.getHeaders();
+    return this.http.post<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.FINISH_DAY(userID), {}, 
+    {headers}
+  ).pipe(
       map(record => this.formatAttendanceRecordOutput(record))
     );
   }
 
   startBreak(userID: string): Observable<AttendanceRecordOutput> {
-    return this.http.post<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.START_BREAK('userID'), {}).pipe(
+    const headers = this.getHeaders();
+    return this.http.post<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.START_BREAK(userID), {}, 
+    {headers}
+  ).pipe(
       map(record => this.formatAttendanceRecordOutput(record))
     );
   }
 
   finishBreak(userID: string): Observable<AttendanceRecordOutput> {
-    return this.http.post<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.FINISH_BREAK('userID'), {}).pipe(
+    const headers = this.getHeaders();
+    return this.http.post<AttendanceRecordOutput>(this.API_CONFIG.ENDPOINTS.ATTENDANCE_RECORD.FINISH_BREAK(userID), {},
+    {headers}
+  ).pipe(
       map(record => this.formatAttendanceRecordOutput(record))
     );
   }

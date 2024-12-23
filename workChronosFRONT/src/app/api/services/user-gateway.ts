@@ -7,13 +7,15 @@ import {
   formatDateTime,
   formatDuration,
 } from '../../shared/utils/formatDate';
+import Cookies from 'js-cookie';
+import { AuthGateway, LoginOutput } from './auth-gateway';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserGateway {
   private API_CONFIG = API_CONFIG;
-  authToken: string | null;
+  userSession: LoginOutput | null;
 
   private formatUserOutput(user: UserOutput): UserOutput {
     return {
@@ -34,14 +36,14 @@ export class UserGateway {
 
   private getHeaders(): HttpHeaders {
     let headers = new HttpHeaders();
-    if (this.authToken) {
-      headers = headers.set('Authorization', `Bearer ${this.authToken}`);
-    }
+    this.userSession = AuthGateway.getUserSession();
+    if (this.userSession) headers = headers.set('Authorization', `Bearer ${this.userSession.token}`);
+
     return headers;
   }
 
   constructor(private http: HttpClient) {
-    this.authToken = localStorage.getItem('authToken');
+    this.userSession = AuthGateway.getUserSession();
   }
 
   getById(id: string): Observable<UserOutput> {

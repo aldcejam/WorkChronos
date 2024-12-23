@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import Cookies from 'js-cookie';
 
 @Component({
   selector: 'sidebar-comp',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent {
-
+  logout() {
+    Cookies.remove('userSession');
+    window.location.href = '/login';
+  }
 }
