@@ -40,3 +40,11 @@ O projeto utiliza as seguintes tecnologias no backend:
 - **Ngx-Toastr:** versão 19.0.0 (para exibição de notificações e alertas).
 - **RxJS:** versão 7.8.0 (para programação reativa com observables).
 - **JS-Cookie:** versão 3.0.5 (para gerenciamento de cookies).
+
+## Funcionalidades extras pensadas
+- **Resgistro de informações trabalhistas:** como salário, horas trabalhadas por dia, horas extras, banco de horas, etc. (está no DER, mas não foi implementado)
+- **Relatórios:** para visualização de informações trabalhistas, como horas trabalhadas, horas extras, banco de horas, etc. (está no DER, mas não foi implementado)
+- **Listagem de usuário para administradores:** para que possam visualizar informações de outros usuários (está no DER, mas não foi implementado)
+
+## Debitos técnicos
+- Para gerenciamento de objetos de valores (value objects) de gestão de tempo (data de entrada, saída e pausas) foi utilizado o tipo String no banco de dado, mas o ideal seria usar jsonb devido a sua facilidade de manipulação e consulta.
