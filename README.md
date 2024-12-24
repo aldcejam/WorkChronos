@@ -1,6 +1,17 @@
+## 🚀 Como executar
+1º - Clone o repositório `git clone git@github.com:aldcejam/WorkChronos.git`
+2º - executar `docker-compose up` na raiz do projeto
 
-## Usuário e Senha
+**OBS:** 📌 O projeto foi desenvolvido com o objetivo do testador não precisar configurar nada, apenas executar o comando acima e testar as funcionalidades. Por este motivos que informações sensivéis como senha do banco de dados e chave de segurança estão expostas no código.
 
+** 👤 Usuário e Senha**
+Email: admin@email.com
+Senha: securepassword
+
+## ⚙️ Funcionalidades
+- Registro e Login (registro apenas backend)
+- Registro de pontos (entrada, saída e pausas)
+- Timeline do dia atual
 
 ## 🛠️ Tecnologias
 
@@ -19,10 +30,4 @@ O projeto utiliza as seguintes tecnologias no backend:
 - Spring Boot Starter Web  
 - Lombok  
 
-## Funcionalidades
-- Registro e Login (registro apenas backend)
-- Registro de pontos
-
-## Como executar
-apenas executar `docker-compose up` na raiz do projeto
-**OBS:** O projeto foi desenvolvido com o objetivo do testador não precisar configurar nada, apenas executar o comando acima e testar as funcionalidades. Por este motivos que informações sensivéis como senha do banco de dados e chave de segurança estão expostas no código.
+## Frontend
