@@ -24,10 +24,19 @@ O projeto utiliza as seguintes tecnologias no backend:
 - **PostgreSQL**: driver para integração com banco de dados  
 
 #### Bibliotecas e Frameworks Principais
-- Spring Boot Starter Data JPA  
-- Spring Boot Starter Security  
-- Spring Boot Starter Validation  
-- Spring Boot Starter Web  
-- Lombok  
+- **Data JPA:** Integração com bancos de dados via JPA.
+- **Security:** Autenticação e autorização.
+- **Validation:** Validação de dados com anotações.
+- **Web:** APIs RESTful e servidores embutidos.
+- **Lombok:** Reduz código boilerplate.
 
 ## Frontend
+- **Angular:** versão 19.0.0
+- **TailwindCSS:** versão 3.4.17
+- **TypeScript:** versão 5.6.2 
+
+#### 📦 Dependências principais
+- **Luxon:** versão 3.5.0 (para manipulação de datas e horários)
+- **Ngx-Toastr:** versão 19.0.0 (para exibição de notificações e alertas).
+- **RxJS:** versão 7.8.0 (para programação reativa com observables).
+- **JS-Cookie:** versão 3.0.5 (para gerenciamento de cookies).
