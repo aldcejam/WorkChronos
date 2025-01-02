@@ -1,5 +1,6 @@
 package idus.api.workchronos.infra.api.controllers;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import idus.api.workchronos.application.UserService;
 import idus.api.workchronos.dtos.user.CreateUserInput;
 import idus.api.workchronos.dtos.user.LoginUserInput;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin(origins = "*")
 @RestController()
 @RequestMapping("/auth")
 @RequiredArgsConstructor

@@ -1,5 +1,6 @@
 package idus.api.workchronos.infra.api.controllers;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import idus.api.workchronos.application.UserService;
 import idus.api.workchronos.domain.user.User;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "*")
 @RestController()
 @RequestMapping("/user")
 public class UserController {
