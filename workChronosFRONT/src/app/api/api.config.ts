@@ -1,5 +1,5 @@
 export class API_CONFIG {
-  private static readonly BASE_URL = 'http://localhost:8080';
+  private static readonly BASE_URL = 'https://api.workchronos.aldcejam.com';
 
   public static readonly ENDPOINTS = {
     USERS: {
