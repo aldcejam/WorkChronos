@@ -1,22 +1,17 @@
-import org.springframework.context.annotation.Bean;
+package idus.api.workchronos.infra.security;
+
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class GlobalCorsConfig {
+public class GlobalCorsConfig implements WebMvcConfigurer {
 
-    @Bean
-    public CorsWebFilter corsWebFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
-        config.addAllowedMethod("*");
-        config.addAllowedHeader("*");
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-
-        return new CorsWebFilter(source);
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**") // Aplica CORS para todas as rotas
+                .allowedOrigins("*") // Permite todas as origens
+                .allowedMethods("*") // Permite todos os métodos HTTP
+                .allowedHeaders("*"); // Permite todos os cabeçalhos
     }
 }
