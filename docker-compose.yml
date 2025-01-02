@@ -5,7 +5,7 @@ services:
       dockerfile: dockerfile
     container_name: workChronosAPI
     ports:
-      - "8080:8080"
+      - "1234:8080"
     depends_on:
       - db
     networks:
@@ -28,7 +28,7 @@ services:
       context: .
       dockerfile: dockerfile.front
     ports:
-      - "4200:4200" 
+      - "9898:4200" 
     container_name: workChronosFrontend
     networks:
       - workChronosNetwork
